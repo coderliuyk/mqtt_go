@@ -67,6 +67,53 @@ database:
   dbname: "sensor_data_db"
 ```
 
+## API 说明
+
+### `POST /mqtt/webhook`
+
+- **功能**: 接收 MQTT Webhook 请求。
+- **请求头**: `Content-Type: application/json`
+- **请求体示例**:
+
+```json
+{
+    "action": "publish",
+    "topic": "rooms/data",
+    "payload": "{\"number\": \"101\", \"name\": \"Conference Room\", \"description\": \"A large meeting room\", \"status\": \"available\"}"
+}
+```
+
+## 数据库表结构
+### `rooms` 表
+
+| 字段名      | 类型      | 说明             |
+| ----------- | --------- | ---------------- |
+| number      | TEXT      | 房间编号（主键） |
+| name        | TEXT      | 房间名称         |
+| description | TEXT      | 房间描述         |
+| status      | TEXT      | 房间状态         |
+| updated_at  | TIMESTAMP | 更新时间         |
+
+### `devices` 表
+
+| 字段名       | 类型      | 说明                 |
+| ------------ | --------- | -------------------- |
+| uuid         | TEXT      | 设备唯一标识（主键） |
+| name         | TEXT      | 设备名称             |
+| type         | TEXT      | 设备类型             |
+| model        | TEXT      | 设备型号             |
+| manufacturer | TEXT      | 设备制造商           |
+| room_id      | INT       | 所属房间ID           |
+| updated_at   | TIMESTAMP | 更新时间             |
+
+### `device_status` 表
+
+| 字段名           | 类型      | 说明           |
+| ---------------- | --------- | -------------- |
+| device_id        | INT       | 设备ID（主键） |
+| status           | TEXT      | 设备状态       |
+| updated_at       | TIMESTAMP | 更新时间       |
+| last_reported_at | TIMESTAMP | 最后上报时间   |
 ## 运行步骤
 
 ### 1. 确保环境就绪
